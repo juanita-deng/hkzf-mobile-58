@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, NavLink } from 'react-router-dom';
 import House from './House'; //找房
 import Index from './Index/index.js'; //首页
 import News from './News'; //资讯
@@ -8,15 +8,7 @@ import './index.scss'; //导入链接的样式
 import NotFound from '../NotFound';
 
 //方式二:使用tabBar组件实现嵌套路由
-import { TabBar, Tabs } from 'antd-mobile';
-
-//TabBar组件封装 这样更容易维护
-const tabs = [
-	{ title: '首页', path: '/home', icon: 'icon-ind' },
-	{ title: '找房', path: '/home/house', icon: 'icon-findHouse' },
-	{ title: '资讯', path: '/home/news', icon: 'icon-infom' },
-	{ title: '我的', path: '/home/profile', icon: 'icon-my' },
-];
+import { TabBar } from 'antd-mobile';
 
 class Home extends React.Component {
 	constructor(props) {
@@ -70,25 +62,66 @@ class Home extends React.Component {
          onPress:点击事件
 						
 						*/}
-						{tabs.map((v) => (
-							<TabBar.Item
-								title={v.title}
-								key={v.title}
-								//控制选项的图标
-								icon={<span className={`iconfont + ${v.icon}`}></span>}
-								//选中的图标,注意:字符串拼接要留空
-								selectedIcon={<span className={'iconfont ' + v.icon}></span>}
-								selected={this.state.selectedTab === v.path}
-								onPress={() => {
-									this.setState({
-										selectedTab: v.path,
-									});
-									//路由跳转
-									this.props.history.push(v.path);
-								}}
-								data-seed="logId"
-							></TabBar.Item>
-						))}
+						<TabBar.Item
+							title="首页"
+							key="首页"
+							//控制选项的图标
+							icon={<span className="iconfont icon-ind"></span>}
+							//选中的图标
+							selectedIcon={<span className="iconfont icon-ind"></span>}
+							selected={this.state.selectedTab === '/home'}
+							onPress={() => {
+								this.setState({
+									selectedTab: '/home',
+								});
+								//路由跳转
+								this.props.history.push('/home');
+							}}
+							data-seed="logId"
+						></TabBar.Item>
+						<TabBar.Item
+							icon={<span className="iconfont icon-findHouse"></span>}
+							selectedIcon={<span className="iconfont icon-findHouse"></span>}
+							title="找房"
+							key="找房"
+							selected={this.state.selectedTab === '/home/house'}
+							onPress={() => {
+								this.setState({
+									selectedTab: '/home/house',
+								});
+								//路由跳转
+								this.props.history.push('/home/house');
+							}}
+							data-seed="logId1"
+						></TabBar.Item>
+						<TabBar.Item
+							icon={<span className="iconfont icon-infom"></span>}
+							selectedIcon={<span className="iconfont icon-infom"></span>}
+							title="资讯"
+							key="资讯"
+							selected={this.state.selectedTab === '/home/news'}
+							onPress={() => {
+								this.setState({
+									selectedTab: '/home/news',
+								});
+								//路由跳转
+								this.props.history.push('/home/news');
+							}}
+						></TabBar.Item>
+						<TabBar.Item
+							icon={<span className="iconfont icon-my"></span>}
+							selectedIcon={<span className="iconfont icon-my"></span>}
+							title="我的"
+							key="我的"
+							selected={this.state.selectedTab === '/home/profile'}
+							onPress={() => {
+								this.setState({
+									selectedTab: '/home/profile',
+								});
+								//路由跳转
+								this.props.history.push('/home/profile');
+							}}
+						></TabBar.Item>
 					</TabBar>
 				</div>
 			</div>

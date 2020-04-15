@@ -25,7 +25,8 @@ class App extends React.Component {
 					{/* 路由信息 */}
 					<Switch>
 						{/* 路由重定向 */}
-						<Redirect from="/" exact to="/home" component={Home}></Redirect>
+						<Redirect from="/" exact to="/home"></Redirect>
+						<Route path="/home" component={Home}></Route>
 						<Route path="/city" component={City}></Route>
 						<Route path="/map" component={Map}></Route>
 						<Route component={NotFound}></Route>

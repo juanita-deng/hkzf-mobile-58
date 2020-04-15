@@ -1,0 +1,31 @@
+.home {
+	.navBar {
+		height: 50px;
+		position: fixed;
+		bottom: 0;
+		width: 100%;
+		// display: flex;//第三方组件中的样式不需要
+		// justify-content: center;
+		background-color: #fff;
+		border-top: 1px solid #ccc;
+		font-size: 10px;
+		// padding-top: 6px;
+		.iconfont {
+			font-size: 20px;
+		}
+		li {
+			flex: 1;
+			text-align: center;
+			span {
+				font-size: 20px;
+			}
+			p {
+				padding: 2px;
+			}
+		}
+		//高亮的类名
+		.active {
+			color: rgb(33, 185, 122);
+		}
+	}
+}
