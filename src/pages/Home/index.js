@@ -8,7 +8,7 @@ import './index.scss'; //导入链接的样式
 import NotFound from '../NotFound';
 
 //方式二:使用tabBar组件实现嵌套路由
-import { TabBar, Tabs } from 'antd-mobile';
+import { TabBar } from 'antd-mobile';
 
 //TabBar组件封装 这样更容易维护
 const tabs = [
@@ -30,7 +30,21 @@ class Home extends React.Component {
 		this.state = {
 			selectedTab: this.props.location.pathname, //不能写死,这个值应该动态获取(写死的话,一刷新会高亮不对应)
 		};
-		console.log(this.props);
+		// console.log(this.props);
+	}
+	//解决其他页面刷新才能获取对应的tab高亮问题
+	componentDidUpdate(prevProps) {
+		//state一改变就会触发
+		// 不能直接在更新的钩子函数中调用setState,否则死递归
+		// console.log(prevProps);
+		// console.log(this.props);
+		//如果上次(prevProps)和本次的路径不一样就去更新
+
+		if (prevProps.location.pathname !== this.props.location.pathname) {
+			this.setState({
+				selectedTab: this.props.location.pathname,
+			});
+		}
 	}
 
 	render() {
@@ -80,9 +94,10 @@ class Home extends React.Component {
 								selectedIcon={<span className={'iconfont ' + v.icon}></span>}
 								selected={this.state.selectedTab === v.path}
 								onPress={() => {
-									this.setState({
-										selectedTab: v.path,
-									});
+									//上面再数据更新的钩子函数已统一解决
+									// this.setState({
+									// 	selectedTab: v.path,
+									// });
 									//路由跳转
 									this.props.history.push(v.path);
 								}}

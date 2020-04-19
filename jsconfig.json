@@ -1,4 +1,3 @@
-//配置src的绝对路径
 {
 	"compilerOptions": {
 		"baseUrl": "src"

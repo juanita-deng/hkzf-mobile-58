@@ -6,11 +6,14 @@ $color: #fff;
 	list-style: none;
 	box-sizing: border-box;
 	//避免控制台出现触摸时报错的信息
-	touch-action: none;
+	touch-action: pan-y;
 }
 
+//百度地图需要,父容器高100%
 html,
-body {
+body,
+#root,
+.app {
 	height: 100%;
 }
 
