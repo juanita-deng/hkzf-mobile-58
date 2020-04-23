@@ -3,6 +3,8 @@ import axios from 'axios';
 import { Carousel, Flex, Grid } from 'antd-mobile';
 import './index.scss';
 import { getCurrentCity } from 'utils/City'; //导入获取当前城市信息的工具函数
+import { BASE_URL } from 'utils/config';
+
 //导航图片-使用create-react-app绝对路径
 import nav1 from 'assets/images/nav-1.png';
 import nav2 from 'assets/images/nav-2.png';
@@ -169,7 +171,7 @@ class Index extends React.Component {
 						}}
 					>
 						<img
-							src={'http://localhost:8080' + val.imgSrc}
+							src={BASE_URL + val.imgSrc}
 							alt={val.alt}
 							style={{ width: '100%', verticalAlign: 'top' }}
 							onLoad={() => {
@@ -256,7 +258,7 @@ class Index extends React.Component {
 									<h4>{el.title}</h4>
 									<p>{el.desc}</p>
 								</div>
-								<img src={`http://localhost:8080${el.imgSrc}`} alt="" />
+								<img src={BASE_URL + el.imgSrc} alt="" />
 							</Flex>
 						)}
 					/>
@@ -273,7 +275,7 @@ class Index extends React.Component {
 					{this.state.news.map((v) => (
 						<div key={v.id} className="news-item">
 							<div className="imgbox">
-								<img src={'http://localhost:8080' + v.imgSrc} alt="" />
+								<img src={BASE_URL + v.imgSrc} alt="" />
 							</div>
 							<Flex justify="between" direction="column" className="content">
 								<h5 className="title"> {v.title} </h5>

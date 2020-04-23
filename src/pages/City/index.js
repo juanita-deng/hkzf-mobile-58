@@ -1,9 +1,11 @@
 import React from 'react';
-import { NavBar, Icon, Toast } from 'antd-mobile';
+import { Toast } from 'antd-mobile';
 import axios from 'axios';
 import { getCurrentCity, setCity } from 'utils/City';
 import { List, AutoSizer } from 'react-virtualized'; //长列表组件
-import './index.scss';
+import styles from './index.module.scss';
+import NavHeader from 'common/NavHeader/index'; //引入头部封装的导航条
+
 //造假列表数据
 // const list = Array.from(new Array(10000)).map(
 // 	(v, index) => `我是第${index}条数据`
@@ -25,16 +27,9 @@ class City extends React.Component {
 	}
 	render() {
 		return (
-			<div className="city">
+			<div className={styles.city}>
 				{/* 导航条 */}
-				<NavBar
-					className="navbar"
-					mode="dark"
-					icon={<Icon type="left" />}
-					onLeftClick={() => this.props.history.go(-1)}
-				>
-					城市选择
-				</NavBar>
+				<NavHeader> 城市选择</NavHeader>
 				{/* 渲染城市列表 
           	width: 长列表的宽度
           	height: 长列表的高度
