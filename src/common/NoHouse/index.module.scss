@@ -1,0 +1,13 @@
+.no-house {
+	margin: 100px auto;
+	text-align: center;
+	:global {
+		img {
+			width: 120px;
+			margin-bottom: 20px;
+		}
+	}
+	p {
+		color: #666;
+	}
+}

@@ -9,7 +9,7 @@
           方法二:用promise
     5.获取到了城市信息,记得往缓存中存一份
 */
-import axios from 'axios';
+import http from './Http';
 
 //因多次使用当前城市的本地存储,生成统一变量提供出去,以免出错
 const CURRENT_CITY = 'current-city';
@@ -29,11 +29,11 @@ export function getCurrentCity(callback) {
 			const myCity = new window.BMap.LocalCity();
 			myCity.get((result) => {
 				// console.log(result);//result.name即为当前城市
-				axios
-					.get('http://localhost:8080/area/info?name=' + result.name)
+				http
+					.get('/area/info?name=' + result.name)
 					.then((res) => {
 						//.then成功了就把城市信息存储起来
-						const { body } = res.data;
+						const { body } = res;
 						// localStorage.setItem(CURRENT_CITY, JSON.stringify(body));
 						setCity(body);
 						resolve(body);

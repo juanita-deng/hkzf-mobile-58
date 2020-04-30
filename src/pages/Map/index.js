@@ -2,9 +2,9 @@ import React from 'react';
 import styles from './index.module.scss';
 import NavHeader from 'common/NavHeader';
 import { getCurrentCity } from 'utils/City';
+import HouseItem from 'common/HouseItem';
 import { Toast } from 'antd-mobile';
 import axios from 'axios';
-import { BASE_URL } from 'utils/config'; //引入环境变量
 const BMap = window.BMap;
 
 class Map extends React.Component {
@@ -13,12 +13,13 @@ class Map extends React.Component {
 		houseList: [], //房屋列表
 	};
 	render() {
+		const { houseList, isShow } = this.state;
 		return (
 			<div className={styles.map}>
 				<NavHeader>地图找房</NavHeader>
 				<div id="container" className="container"></div>
 				{/* 房屋列表 */}
-				<div className={`houseList ${this.state.isShow ? 'show' : ''}`}>
+				<div className={`houseList ${isShow ? 'show' : ''}`}>
 					<div className="titleWrap">
 						<h1 className="listTitle">房屋列表</h1>
 						<a className="titleMore" href="/house/list">
@@ -27,31 +28,8 @@ class Map extends React.Component {
 					</div>
 					{/* 遍历房屋列表数据动态渲染 */}
 					<div className="houseItems">
-						{this.state.houseList.map((v) => (
-							<div className="house" key={v.houseCode}>
-								<div className="imgWrap">
-									<img className="img" src={BASE_URL + v.houseImg} alt="" />
-								</div>
-								<div className="content">
-									<h3 className="title">{v.title}</h3>
-									<div className="desc">{v.desc}</div>
-									<div>
-										{v.tags.map((items, index) => {
-											return (
-												<span
-													key={items}
-													className={`tag tag${(index % 3) + 1}`}
-												>
-													{items}
-												</span>
-											);
-										})}
-									</div>
-									<div className="price">
-										<span className="priceNum">{v.price}</span> 元/月
-									</div>
-								</div>
-							</div>
+						{houseList.map((v) => (
+							<HouseItem v={v} key={v.houseCode}></HouseItem>
 						))}
 					</div>
 				</div>

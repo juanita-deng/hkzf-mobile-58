@@ -1,5 +1,7 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import http from 'utils/Http'; //导入优化过的axios
+import SearchHeader from 'common/SearchHeader';
 import { Carousel, Flex, Grid } from 'antd-mobile';
 import './index.scss';
 import { getCurrentCity } from 'utils/City'; //导入获取当前城市信息的工具函数
@@ -73,7 +75,7 @@ class Index extends React.Component {
 		// 		},
 		// 	});
 		// 	// console.log(res);
-		// 	const { status, body } = res.data;
+		// 	const { status, body } = res;
 
 		// 	// 将获取到的当前城市存到本地
 		// 	localStorage.setItem('current_city', JSON.stringify(body));
@@ -97,9 +99,9 @@ class Index extends React.Component {
 	}
 	//发送ajax请求轮播图图片获取数据
 	async SwiperList() {
-		const res = await axios.get('http://localhost:8080/home/swiper');
+		const res = await http.get('/home/swiper');
 		// console.log(res);
-		const { status, body } = res.data;
+		const { status, body } = res;
 		if (status === 200) {
 			// this.state.data = body;//error
 			this.setState({
@@ -110,7 +112,7 @@ class Index extends React.Component {
 	}
 	//发送Ajax请求获取租房小组的具体数据
 	async getGrid() {
-		const res = await axios.get('http://localhost:8080/home/groups', {
+		const res = await http.get('/home/groups', {
 			// params: {
 			// 	area: 'AREA|88cff55c-aaa4-e2e0', //参数:地区的id,后期需要根据百度定位后动态获取
 			// },
@@ -119,7 +121,7 @@ class Index extends React.Component {
 			},
 		});
 		// console.log(res);
-		const { status, body } = res.data;
+		const { status, body } = res;
 		if (status === 200) {
 			this.setState({
 				GridList: body,
@@ -129,7 +131,7 @@ class Index extends React.Component {
 	}
 	//发送ajax请求获取最新资讯的数据
 	async getNews() {
-		const res = await axios.get('http://localhost:8080/home/news', {
+		const res = await http.get('/home/news', {
 			// params: {
 			// 	area: 'AREA|88cff55c-aaa4-e2e0', //先写死后期获取到定位城市后动态生成
 			// },
@@ -138,7 +140,7 @@ class Index extends React.Component {
 			},
 		});
 		// console.log(res);
-		const { status, body } = res.data;
+		const { status, body } = res;
 		if (status === 200) {
 			this.setState({
 				news: body,
@@ -184,31 +186,6 @@ class Index extends React.Component {
 					</a>
 				))}
 			</Carousel>
-		);
-	}
-	//头部搜索
-	renderSearch() {
-		return (
-			<Flex className="search-box">
-				<Flex className="search-form">
-					<div
-						className="location"
-						onClick={() => this.props.history.push('/city')}
-					>
-						<span className="name">{this.state.city.label}</span>
-						<span className="iconfont icon-arrow"> </span>
-					</div>
-					<div className="search-input">
-						<span className="iconfont icon-seach" />
-						<span className="text">请输入小区地址</span>
-					</div>
-				</Flex>
-				{/* 地图小图标 */}
-				<span
-					className="iconfont icon-map"
-					onClick={() => this.props.history.push('/map')}
-				/>
-			</Flex>
 		);
 	}
 	//导航结构渲染
@@ -298,7 +275,7 @@ class Index extends React.Component {
 					{/* 轮播图组件 */}
 					{this.renderSwiper()}
 					{/* 头部搜索 */}
-					{this.renderSearch()}
+					<SearchHeader cityName={this.state.city.label}></SearchHeader>
 				</div>
 				{/* 导航部分 */}
 				<div className="nav"> {this.renderNav(this.props)} </div>

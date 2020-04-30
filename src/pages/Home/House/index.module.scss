@@ -1,0 +1,40 @@
+.house {
+	height: 100%;
+	padding-bottom: 45px;
+	:global {
+		.house-title {
+			padding-left: 10px;
+			.house-header {
+				width: 100%;
+				//修改组件的绝对定位为静态定位
+				.search-box {
+					position: static;
+					height: 45px;
+					padding-left: 0;
+					.search-form {
+						padding: 6px;
+					}
+					.icon-map {
+						color: #00ae66;
+					}
+				}
+			}
+		}
+		//房屋列表(解决list组件没高不出现)
+		.house-list {
+			height: 100%;
+			//解决房源底部遮挡问题
+			.ReactVirtualized__Grid {
+				padding-bottom: 50px;
+			}
+			//如果滑动过快展示的占位元素
+			.placeholder {
+				padding-top: 10px;
+				p {
+					background-color: #ddd;
+					height: 100%;
+				}
+			}
+		}
+	}
+}
