@@ -4,6 +4,7 @@ import FilterTitle from '../FilterTitle/index'; //导入筛选组件标题
 import FilterPicker from '../FilterPicker/index'; //导入条件筛选组件
 import FilterMore from '../FilterMore/index'; //导入更多筛选组件
 import http from 'utils/Http';
+import { Spring } from 'react-spring/renderprops'; //导入动画组件
 import { getCurrentCity } from 'utils/City';
 
 class Filter extends React.Component {
@@ -45,12 +46,12 @@ class Filter extends React.Component {
 		}
 	}
 	render() {
-		const { titleObj, openType } = this.state;
+		const { titleObj } = this.state;
 		return (
 			<div className={styles.filter}>
-				{openType === 'area' || openType === 'mode' || openType === 'price' ? (
-					<div className="mask" onClick={this.handleHide} />
-				) : null}
+				{/* 渲染遮罩 */}
+				{this.renderMask()}
+
 				<div className="content">
 					{/* filter组件的内容 */}
 					{/* 筛选标题 */}
@@ -68,23 +69,48 @@ class Filter extends React.Component {
 			</div>
 		);
 	}
+	//渲染遮罩
+	renderMask() {
+		const { openType } = this.state;
+		let isShow =
+			openType === 'area' || openType === 'mode' || openType === 'price';
+		return (
+			<Spring
+				from={{ opacity: 0 }}
+				to={{ opacity: isShow ? 1 : 0 }}
+				config={{ duration: 2000 }}
+			>
+				{(props) => {
+					if (props.opacity === 0) {
+						return null;
+					} else {
+						return (
+							<div className="mask" style={props} onClick={this.handleHide} />
+						);
+					}
+				}}
+			</Spring>
+		);
+	}
 	//更多筛选组件的渲染
 	renderFilterMore() {
 		const {
 			selectedValues,
+			openType,
 			filterData: { characteristic, floor, oriented, roomType },
 		} = this.state;
 		let defaultValues = selectedValues.more;
-		if (this.state.openType === 'more') {
-			return (
-				<FilterMore
-					handleHide={this.handleHide}
-					{...{ characteristic, floor, oriented, roomType }}
-					handleConfirm={this.handleConfirm}
-					defaultValues={defaultValues}
-				></FilterMore>
-			);
-		}
+		// if (this.state.openType === 'more') { //交给子组件动画处理
+		return (
+			<FilterMore
+				handleHide={this.handleHide}
+				{...{ characteristic, floor, oriented, roomType }}
+				handleConfirm={this.handleConfirm}
+				defaultValues={defaultValues}
+				openType={openType}
+			></FilterMore>
+		);
+		// }
 	}
 	//条件筛选组件的渲染
 	renderFilterPicker() {

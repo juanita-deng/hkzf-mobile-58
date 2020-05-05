@@ -1,6 +1,8 @@
 .filter {
 	position: relative;
 	z-index: 3;
+	//解决:当显示了NoHouse页面时再点其他筛选,盒子会掉下来
+	height: 40px;
 	:global {
 		.content {
 			position: relative;
@@ -14,7 +16,7 @@
 			right: 0;
 			top: 0;
 			bottom: 0;
-			background-color: rgba(0, 0, 0, 0.3);
+			background-color: rgba(0, 0, 0, 0.5);
 		}
 	}
 }

@@ -13,10 +13,19 @@ class FilterFooter extends React.Component {
 		cancelBtn: '取消',
 	};
 	render() {
-		const { className, cancelBtn, handleHide, handleConfirm } = this.props;
+		const {
+			className,
+			cancelBtn,
+			handleHide,
+			handleConfirm,
+			style,
+		} = this.props;
 		return (
 			/* 不能将propsName丢失 */
-			<Flex className={classNames(styles['filter-footer'], className)}>
+			<Flex
+				className={classNames(styles['filter-footer'], className)}
+				style={style}
+			>
 				{/* 取消按钮 */}
 				<span className="btn cancel" onClick={handleHide}>
 					{cancelBtn}

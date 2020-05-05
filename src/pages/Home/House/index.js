@@ -44,11 +44,7 @@ class House extends React.Component {
 		if (houseCount === 0) {
 			return <NoHouse></NoHouse>;
 		} else if (houseCount > 0) {
-			{
-				/* 
-							loadMoreRows:一个函数:用于加载更多函数,需要发送Ajax请求获取更多数据,必须返回promise
-						*/
-			}
+			//loadMoreRows:一个函数:用于加载更多函数,需要发送Ajax请求获取更多数据,必须返回promise
 			return (
 				<InfiniteLoader
 					isRowLoaded={this.isRowLoaded}
@@ -121,6 +117,7 @@ class House extends React.Component {
 	};
 	loadMoreRows = ({ startIndex, stopIndex }) => {
 		// 用于提供加载更多函数的逻辑,需要发送Ajax请求去加载更多数据,必须返回一个promise
+		console.log('加载更多', startIndex, stopIndex);
 		return new Promise(async (resolve, reject) => {
 			//异步的操作,需要发送请求,获取数据
 			//加1解决每次请求最后一条数据重复的问题
@@ -134,6 +131,8 @@ class House extends React.Component {
 	//获取房屋列表
 	async getHouseList(start = 1, end = 30) {
 		Toast.loading('拼命加载中', 0);
+		//解决不断加载,不断发请求
+		document.body.style.overflow = 'hidden';
 		const city = await getCurrentCity();
 		const res = await http.get('/houses', {
 			params: {
@@ -153,6 +152,8 @@ class House extends React.Component {
 		}
 		//数据加载完隐藏提示
 		Toast.hide();
+		//解决不断加载,不断发请求
+		document.body.style.overflow = '';
 		if (start === 1) {
 			Toast.info('总共找到了' + count + '条数据');
 		}

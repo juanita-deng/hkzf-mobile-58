@@ -24,7 +24,7 @@ export default class Sticky extends Component {
 		window.addEventListener('scroll', this.handleScroll);
 	}
 	//如果不移除滚动事件,在其他页面滚动时也会触发滚动事件
-	componentWillUnMount() {
+	componentWillUnmount() {
 		//页面销毁时触发
 		window.removeEventListener('scroll', this.handleScroll);
 	}
