@@ -15,15 +15,15 @@ export function setToken(token) {
  * @return {json} 从本地中获取token
  *  */
 
-export function getToken(token) {
-	localStorage.getItem(TOKEN_NAME);
+export function getToken() {
+	return localStorage.getItem(TOKEN_NAME);
 }
 
 /**
  * 移除token
  *  */
 
-export function removeToken(token) {
+export function removeToken() {
 	localStorage.removeItem(TOKEN_NAME);
 }
 

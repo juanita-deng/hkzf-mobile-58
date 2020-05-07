@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import House from './House'; //找房
 import Index from './Index/index.js'; //首页
 import News from './News'; //资讯
-import Profile from './Profile'; //我的
+import My from './My'; //我的
 import './index.scss'; //导入链接的样式
 import NotFound from '../NotFound';
 
@@ -15,7 +15,7 @@ const tabs = [
 	{ title: '首页', path: '/home', icon: 'icon-ind' },
 	{ title: '找房', path: '/home/house', icon: 'icon-findHouse' },
 	{ title: '资讯', path: '/home/news', icon: 'icon-infom' },
-	{ title: '我的', path: '/home/profile', icon: 'icon-my' },
+	{ title: '我的', path: '/home/my', icon: 'icon-my' },
 ];
 
 class Home extends React.Component {
@@ -55,7 +55,7 @@ class Home extends React.Component {
 					<Route path="/home" exact component={Index}></Route>
 					<Route path="/home/house" component={House}></Route>
 					<Route path="/home/news" component={News}></Route>
-					<Route path="/home/profile" component={Profile}></Route>
+					<Route path="/home/my" component={My}></Route>
 					<Route component={NotFound}></Route>
 				</Switch>
 				{/* 配置导航连接--使用antd-mobile的tabBar组件 */}
