@@ -14,7 +14,7 @@ import {
 	WindowScroller,
 	InfiniteLoader,
 } from 'react-virtualized';
-
+let CURRENT_CITY = '上海';
 class House extends React.Component {
 	state = {
 		houseParems: {}, //房屋列表处理的参数
@@ -26,7 +26,10 @@ class House extends React.Component {
 			<div className={styles.house}>
 				<Flex className="house-title" style={{ backgroundColor: '#ddd' }}>
 					<span className="iconfont icon-back"></span>
-					<SearchHeader cityName="上海" className="house-header"></SearchHeader>
+					<SearchHeader
+						cityName={CURRENT_CITY}
+						className="house-header"
+					></SearchHeader>
 				</Flex>
 
 				{/* 渲染筛选组件 */}
@@ -134,6 +137,7 @@ class House extends React.Component {
 		//解决不断加载,不断发请求
 		document.body.style.overflow = 'hidden';
 		const city = await getCurrentCity();
+		CURRENT_CITY = city.label;
 		const res = await http.get('/houses', {
 			params: {
 				...this.state.houseParems,

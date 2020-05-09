@@ -40,7 +40,7 @@ const validate = (values) => {
 };
 
 function Login(props) {
-	console.log(props);
+	// console.log(props);
 	return (
 		<div className={styles.login}>
 			{/* 顶部导航 */}
@@ -71,7 +71,11 @@ function Login(props) {
 							//不能写死,需要根据路径判断是否需要回跳
 							const { location, history } = props;
 							if (location.state) {
-								history.push(location.state.from.pathname);
+								/* 
+									push会生成历史记录,replace不会生成历史
+								*/
+								// history.push(location.state.from.pathname);
+								history.replace(location.state.from.pathname); //未登录状态rent回退可以到/my页面而不是登陆页面
 							} else {
 								props.history.go(-1); //render-props方式在组件内部可以直接访问props
 							}

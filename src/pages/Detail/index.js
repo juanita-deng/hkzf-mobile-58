@@ -2,11 +2,12 @@ import React from 'react';
 import styles from './index.module.scss';
 import http from 'utils/Http';
 import NavHeader from 'common/NavHeader';
-import { Carousel, Flex } from 'antd-mobile'; //导入轮播图组件
+import { Carousel, Flex, Modal } from 'antd-mobile'; //导入轮播图组件
 import { BASE_URL } from 'utils/config';
 import classNames from 'classnames';
 import HousePackage from 'common/HousePackage'; //配套信息组件
 import HouseItem from 'common/HouseItem';
+import { hasToken } from 'utils/token';
 
 const BMap = window.BMap;
 // 猜你喜欢(写死的假数据)
@@ -41,7 +42,7 @@ export default class Detail extends React.Component {
 	state = {
 		info: {
 			//房源信息
-			community: '', //提供默认值,解决children报错问题
+			community: '', //小区名称,提供默认值,解决children报错问题
 			houseImg: '',
 			oriented: [], //提供默认值,解决oriented.join报错问题
 			tags: [], //同上
@@ -49,9 +50,9 @@ export default class Detail extends React.Component {
 				latitude: '39.928033', //设置默认值
 				longitude: '116.529466',
 			},
-			community: '', //小区名称
 			supporting: [], //房屋配套信息
 		},
+		isFavorite: false, //是否收藏
 	};
 	render() {
 		const { community, supporting } = this.state.info;
@@ -98,6 +99,18 @@ export default class Detail extends React.Component {
 	}
 	async componentDidMount() {
 		const id = this.props.match.params.id;
+		//判断是否登陆了
+		if (hasToken()) {
+			//登陆了发送请求
+			const { status, body } = await http.get(`/user/favorites/${id}`);
+			if (status === 200) {
+				this.setState({
+					isFavorite: body.isFavorite,
+				});
+			}
+			//没登陆渲染对应的文本信息
+		}
+		//发送请求获取房屋信息
 		const res = await http.get(`houses/${id}`);
 		const { status, body } = res;
 		if (status === 200) {
@@ -105,7 +118,7 @@ export default class Detail extends React.Component {
 				info: body,
 			});
 		}
-		console.log(this.state.info);
+		// console.log(this.state.info);
 		//渲染地图
 		const { community, coord } = res.body;
 		this.renderMap(community, coord);
@@ -287,15 +300,20 @@ export default class Detail extends React.Component {
 	}
 	//底部收藏
 	renderFooter() {
+		const { isFavorite } = this.state;
 		return (
 			<Flex className="fixedBottom">
 				<Flex.Item onClick={this.handleFavorite}>
 					<img
-						src={BASE_URL + '/img/unstar.png'}
+						src={
+							isFavorite
+								? BASE_URL + '/img/star.png'
+								: BASE_URL + '/img/unstar.png'
+						}
 						className="favoriteImg"
 						alt="收藏"
 					/>
-					<span className="favorite">收藏</span>
+					<span className="favorite">{isFavorite ? '收藏' : '未收藏'}</span>
 				</Flex.Item>
 				<Flex.Item>在线咨询</Flex.Item>
 				<Flex.Item>
@@ -306,4 +324,35 @@ export default class Detail extends React.Component {
 			</Flex>
 		);
 	}
+	//收藏功能
+	handleFavorite = async () => {
+		const id = this.props.match.params.id;
+		if (hasToken()) {
+			//登陆了判断是否收藏了
+			if (this.state.isFavorite) {
+				//收藏了,发送请求删除收藏
+				await http.delete('/user/favorites/' + id);
+				this.setState({
+					isFavorite: false,
+				});
+			} else {
+				//没收藏,发送请求添加收藏
+				await http.post('/user/favorites/' + id);
+				this.setState({
+					isFavorite: true,
+				});
+			}
+		} else {
+			//没登陆
+			Modal.alert('温馨提示', '登陆才能收藏,是否要去登陆?', [
+				{ text: '取消' },
+				{
+					text: '确定',
+					onPress: () => {
+						this.props.history.push('/login');
+					},
+				},
+			]);
+		}
+	};
 }

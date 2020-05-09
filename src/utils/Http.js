@@ -22,7 +22,9 @@ http.interceptors.request.use((config) => {
 		config.url !== '/user/registered'
 	) {
 		//所有以/user开头,除去注册和登录页外,都要加token(可以拦截出租页)
-		config.headers.authorization = getToken();
+		config.headers = {
+			authorization: getToken(),
+		};
 		//则可以去掉登录页和注册页请求时发的token
 	}
 	return config;

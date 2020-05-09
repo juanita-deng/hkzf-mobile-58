@@ -108,7 +108,8 @@ class City extends React.Component {
 		if (Hot.includes(city.label)) {
 			// localStorage.setItem('current-city', JSON.stringify(city));
 			setCity(city);
-			this.props.history.push('/home');
+			// this.props.history.push('/home');
+			this.props.history.go(-1);
 		} else {
 			Toast.info('没有更多数据', 1);
 			return;
